@@ -1,0 +1,27 @@
+
+\definecolor{N7blue}{HTML}{104F9E}
+\tikzset{basic/.style={draw,fill=N7blue!20,align=center}}
+\tikzset{input/.style={text centered, align=center}}
+\tikzset{weights/.style={basic,minimum size=.75cm,inner sep=0pt}}
+\tikzset{functions/.style={basic,circle,fill=N7blue!50},inner sep=1pt}
+\begin{tikzpicture}
+    \foreach \h [count=\hi ] in {$x_n$,\vdots,$x_2$,$x_1$,$x_{0}$}{%
+      \node[input] (f\hi) at (0,\hi*1cm-5 cm) {\h};
+    }
+    \foreach \h [count=\hi ] in {$w_n$,,$w_2$,$w_1$,$w_0$}{%
+      \ifthenelse{\hi=2}{}{
+      \node[weights] (w\hi) at ($(f\hi)+(1,0)$) {\h};
+      \draw[->] (f\hi) -- (w\hi);
+      }
+    }
+    \node[functions,right=2cm of w3] (sum) {$\sum$};
+    \foreach \h [count=\hi ] in {$w_n$,,$w_2$,$w_1$,$w_0$}{%
+      \ifthenelse{\hi=2}{}{\draw[->] (w\hi.east) -- (sum);}
+    }
+    \node[functions,align=center,right=of sum] (step) {$f(\cdot)$};
+    \draw[->] (sum) -- (step);
+    \node[input,align=center,below=of sum] (bias)  {$b$};
+    \draw[->] (bias) -- (sum);
+    \node[input,right=of step] (output) {y};
+    \draw[->] (step) -- (output);
+  \end{tikzpicture}
